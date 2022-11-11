@@ -1,5 +1,6 @@
 import pickle
 import numpy as np
+import pandas as pd
 from flask import Flask
 from flask import render_template, url_for, request, jsonify
 
@@ -15,11 +16,11 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/predict_api/', methods=['POST','GET'])
+@app.route('/predict_api/', methods=['POST'])
 def predict_api():
     data = [float(x) for x in request.form.values()]
     # convert the data into encoded numerics of defined range
-    input_val = model_load.transform(np.array(data).reshape(1, -1))
+    input_val = scalar.transform(np.array(data).reshape(1, -1))
     # using input value predict the output
     output_val = model_load.predict(input_val)[0]
     print(output_val)
@@ -28,7 +29,3 @@ def predict_api():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
